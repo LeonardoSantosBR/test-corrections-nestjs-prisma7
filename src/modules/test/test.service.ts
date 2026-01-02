@@ -2,24 +2,63 @@ import { Injectable } from '@nestjs/common';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsRepository } from 'src/repositories';
+import { tests, Prisma } from 'generated/prisma/client';
 
 @Injectable()
 export class TestService {
   constructor(private readonly testRepository: TestsRepository) { }
 
-  async create(createTestDto: CreateTestDto) {
-    return 'This action adds a new test';
+  async create(data: CreateTestDto) {
+    const { name, questions } = data
+    return await this.testRepository.create({
+      name,
+      questions: questions ? {
+        create: data.questions.map((qs) => ({
+          title: qs.title,
+          rightOption: qs.rightOption,
+          options: {
+            create: qs.options.map((op) => ({
+              option: op.option,
+              description: op.description,
+            })),
+          },
+        })),
+      } : null
+    });
   }
 
-  async findAll() {
-    return `This action returns all test`;
+  async findOne(id: string, arg?: Prisma.testsFindFirstArgs) {
+    const where = arg?.where || { id, deletedAt: null };
+    const query = await this.testRepository.findOne({
+      where,
+      ...arg,
+    });
+
+    return query;
+
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} test`;
+  async findOneByName(name: string, arg?: Prisma.testsFindFirstArgs) {
+    const where = arg?.where || { name, deleted_at: null };
+    const query = await this.testRepository.findOne({
+      where,
+      ...arg,
+    });
+
+    return query;
   }
 
-  async update(id: number, updateTestDto: UpdateTestDto) {
+  async findAll(params: Prisma.testsFindManyArgs) {
+    const [rows, count]: [tests[], number] = await Promise.all([
+      this.testRepository.findAll(params),
+      this.testRepository.count({
+        where: params.where || {},
+      }),
+    ]);
+    return { rows, count };
+  }
+
+  async update(id: number, data: UpdateTestDto) {
     return `This action updates a #${id} test`;
   }
 

@@ -9,13 +9,13 @@ export class TestsRepository {
     }
 
     async findAll(params: Prisma.testsFindManyArgs) {
-        const [rows, count] = await Promise.all([
-            this.prisma.tests.findMany(params),
-            this.prisma.tests.count({
-                where: params.where || {},
-            }),
-        ]);
-        return { rows, count };
+        const query = await this.prisma.tests.findMany(params);
+        return query;
+    }
+
+    async count(params: Prisma.testsCountArgs): Promise<number> {
+        const query = await this.prisma.tests.count(params);
+        return query;
     }
 
     async findOne(params: Prisma.testsFindFirstArgs) {
