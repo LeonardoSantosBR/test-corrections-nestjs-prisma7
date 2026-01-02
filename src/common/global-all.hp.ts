@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
-import { TransformSort } from './transform-sort.hp';
-import { TransformToNumber } from './transform-number.hp';
+import { TransformSort } from '../helpers/transform-sort.hp';
+import { TransformToNumber } from '../helpers/transform-number.hp';
 
 export class GlobalAllDto {
   @IsOptional()

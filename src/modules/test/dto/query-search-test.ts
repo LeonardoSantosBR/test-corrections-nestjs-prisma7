@@ -1,3 +1,3 @@
-import { GlobalAllDto } from "src/helpers/global-all.hp";
+import { GlobalAllDto } from "src/common/global-all.hp";
 
 export class querySearchTest extends GlobalAllDto { }

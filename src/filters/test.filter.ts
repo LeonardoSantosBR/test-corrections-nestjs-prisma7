@@ -1,4 +1,4 @@
-import { whereGlobal } from 'src/helpers/where-global.hp';
+import { whereGlobal } from 'src/common/where-global.hp';
 import { optType } from 'src/types/type-filter';
 import { querySearchTest } from 'src/modules/test/dto/query-search-test';
 
