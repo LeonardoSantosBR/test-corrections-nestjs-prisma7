@@ -39,7 +39,7 @@ export class TestService {
   }
 
   async findOneByName(name: string, arg?: Prisma.testsFindFirstArgs) {
-    const where = arg?.where || { name, deleted_at: null };
+    const where = arg?.where || { name, deletedAt: null };
     const query = await this.testRepository.findOne({
       where,
       ...arg,

@@ -4,14 +4,13 @@ import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
-
     constructor() {
         const adapter = new PrismaMariaDb({
-            host: process.env.DB_HOST || 'localhost',
-            port: Number(process.env.DB_PORT) || 3306,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
+            host: process.env.DATABASE_HOST || 'localhost',
+            port: Number(process.env.DATABASE_PORT) || 3306,
+            user: process.env.DATABASE_USER,
+            password: process.env.DATABASE_PASSWORD,
+            database: process.env.DATABASE_NAME,
             connectionLimit: 5,
         })
 

@@ -3,7 +3,8 @@ import { TestService } from './test.service';
 import { TestController } from './test.controller';
 import { TestsRepository } from 'src/repositories';
 import { TestRouter } from './test.routes';
-const providers = [TestController, TestService, TestsRepository]
+import { PrismaService } from 'src/database/prisma/prisma-service';
+const providers = [PrismaService, TestController, TestService, TestsRepository]
 
 @Module({
   controllers: [TestRouter],

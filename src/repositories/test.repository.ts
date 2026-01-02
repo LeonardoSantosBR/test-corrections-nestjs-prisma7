@@ -1,7 +1,10 @@
-import { Prisma, PrismaClient } from "generated/prisma/client";
+import { Injectable } from "@nestjs/common";
+import { Prisma } from "generated/prisma/client";
+import { PrismaService } from "src/database/prisma/prisma-service";
 
+@Injectable()
 export class TestsRepository {
-    constructor(private readonly prisma: PrismaClient) { }
+    constructor(private readonly prisma: PrismaService) { }
 
     async create(data: Prisma.testsCreateInput) {
         const new_test = await this.prisma.tests.create({ data });
@@ -19,8 +22,8 @@ export class TestsRepository {
     }
 
     async findOne(params: Prisma.testsFindFirstArgs) {
-        const findedUser = await this.prisma.tests.findFirst(params);
-        return findedUser;
+        const query = await this.prisma.tests.findFirst(params)
+        return query;
     }
 
     async update(params: Prisma.testsUpdateArgs) {
