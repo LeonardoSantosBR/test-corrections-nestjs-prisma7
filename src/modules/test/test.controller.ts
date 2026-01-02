@@ -46,10 +46,10 @@ export class TestController {
   }
 
   async update(id: string, body: UpdateTestDto) {
-    return this.testService.update(+id, body);
+    return this.testService.update(id, body);
   }
 
   async remove(id: string) {
-    return this.testService.remove(+id);
+    return this.testService.remove(id);
   }
 }
