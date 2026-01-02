@@ -22,7 +22,7 @@ export class TestController {
     const page = +querys?.page;
     const limit = +querys?.limit;
     const orderBy: Prisma.testsOrderByWithAggregationInput = querys?.order ?? {
-      created_at: 'desc',
+      createdAt: 'desc',
     };
     const where: Prisma.testsWhereInput = {
       deletedAt: null,
