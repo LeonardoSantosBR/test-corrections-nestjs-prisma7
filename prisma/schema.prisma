@@ -14,12 +14,13 @@ datasource db {
 }
 
 model tests {
-  id        String      @id @default(uuid())
-  name      String      @unique
-  createdAt DateTime    @default(now())
-  updatedAt DateTime?
-  deletedAt DateTime?
-  questions questions[]
+  id         String       @id @default(uuid())
+  name       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime?
+  deletedAt  DateTime?
+  questions  questions[]
+  executions executions[]
 }
 
 model questions {
@@ -32,4 +33,16 @@ model questions {
   updatedAt   DateTime?
   deletedAt   DateTime?
   test        tests     @relation(fields: [testId], references: [id])
+}
+
+model executions {
+  id               String   @id @default(uuid())
+  testId           String
+  ip               String
+  totalQuestions   String
+  totalCorrect     String
+  totalWrong       String
+  resultPercentage String
+  createdAt        DateTime @default(now())
+  test             tests    @relation(fields: [testId], references: [id])
 }
