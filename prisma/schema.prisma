@@ -39,10 +39,10 @@ model executions {
   id               String   @id @default(uuid())
   testId           String
   ip               String
-  totalQuestions   String
-  totalCorrect     String
-  totalWrong       String
-  resultPercentage String
+  totalQuestions   Int
+  totalCorrect     Int
+  totalWrong       Int
+  resultPercentage Int
   createdAt        DateTime @default(now())
   test             tests    @relation(fields: [testId], references: [id])
 }

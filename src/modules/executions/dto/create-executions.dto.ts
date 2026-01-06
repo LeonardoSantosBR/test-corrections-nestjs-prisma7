@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsString, IsNotEmpty, IsUUID, IsNumber } from 'class-validator';
 
 export class CreateExecutionDto {
   @IsUUID()
@@ -9,19 +9,19 @@ export class CreateExecutionDto {
   @IsNotEmpty()
   ip: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  totalQuestions: string;
+  totalQuestions: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  totalCorrect: string;
+  totalCorrect: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  totalWrong: string;
+  totalWrong: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  resultPercentage: string;
+  resultPercentage: number;
 }

@@ -5,8 +5,25 @@ import { ExecutionsService } from './executions.service';
 export class ExecutionsController {
   constructor(private readonly executionsService: ExecutionsService) {}
 
-  async create(testId: string, ip: string) {
+  async create({
+    answers,
+    testId,
+    ip,
+  }: {
+    answers: any;
+    testId: string;
+    ip: string;
+  }) {
     if (!testId) throw new BadRequestException('Id do teste não enviado.');
-    return this.executionsService.create(testId, ip);
+
+    if (answers.length <= 0)
+      throw new BadRequestException('Nenhuma Resposta respondida.');
+
+    const body = {
+      answers,
+      testId,
+      ip,
+    };
+    return this.executionsService.create(body);
   }
 }
