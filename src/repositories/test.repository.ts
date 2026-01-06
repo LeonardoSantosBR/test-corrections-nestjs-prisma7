@@ -31,6 +31,21 @@ export class TestsRepository {
         return true;
     }
 
+    async createQuestion(params: Prisma.questionsCreateArgs) {
+        await this.prisma.questions.create(params);
+        return true;
+    }
+
+    async updateQuestion(params: Prisma.questionsUpdateArgs) {
+        await this.prisma.questions.update(params);
+        return true;
+    }
+
+    async questionsDeleteMany(params: Prisma.questionsDeleteManyArgs) {
+        await this.prisma.questions.deleteMany(params);
+        return true;
+    }
+
     async delete(params: Prisma.testsDeleteArgs) {
         await this.prisma.tests.delete(params);
         return true;

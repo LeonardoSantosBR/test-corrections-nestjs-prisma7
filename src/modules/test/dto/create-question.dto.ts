@@ -1,23 +1,28 @@
 import {
-    IsString,
-    IsNotEmpty,
-    IsArray,
-    ValidateNested,
+  IsString,
+  IsNotEmpty,
+  ValidateNested,
+  IsNumber,
+  IsOptional,
+  IsJSON,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateOptionDto } from './create-option.dto';
 
 export class CreateQuestionDto {
-    @IsString()
-    @IsNotEmpty()
-    title: string;
+  @IsNumber()
+  @IsOptional()
+  id: number;
 
-    @IsString()
-    @IsNotEmpty()
-    rightOption: string;
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => CreateOptionDto)
-    options: CreateOptionDto[];
+  @IsString()
+  @IsNotEmpty()
+  rightOption: string;
+
+  @IsJSON()
+  @IsNotEmpty()
+  options: any;
 }

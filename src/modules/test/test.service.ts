@@ -60,7 +60,53 @@ export class TestService {
   }
 
   async update(id: string, data: UpdateTestDto) {
-    return `This action updates a #${id} test`;
+    const test: any = await this.testRepository.findOne({
+      where: { id },
+      select: { questions: true },
+    });
+
+    const questions_with_id = data.questions.filter((q) => q.id);
+    const questions_without_id = data.questions.filter((q) => !q.id);
+
+    for (const question of questions_with_id) {
+      await this.testRepository.updateQuestion({
+        where: { id: question.id },
+        data: {
+          title: question.title,
+          rightOption: question.rightOption,
+          options: question.options,
+          updatedAt: new Date(),
+        },
+      });
+    }
+
+    for (const question of questions_without_id) {
+      await this.testRepository.createQuestion({
+        data: {
+          title: question.title,
+          rightOption: question.rightOption,
+          options: question.options,
+          test: {
+            connect: {
+              id,
+            },
+          },
+        },
+      });
+    }
+
+    const payload_ids = questions_with_id.map((q) => q.id);
+    const idsToDelete = test.questions
+      .filter((q) => !payload_ids.includes(q.id))
+      .map((q) => q.id);
+
+    await await this.testRepository.questionsDeleteMany({
+      where: {
+        id: { in: idsToDelete },
+      },
+    });
+
+    return true;
   }
 
   async remove(id: string) {

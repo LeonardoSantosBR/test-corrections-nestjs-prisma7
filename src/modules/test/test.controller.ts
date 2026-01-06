@@ -10,11 +10,14 @@ import { testFilter } from 'src/filters/test.filter';
 
 @Injectable()
 export class TestController {
-  constructor(private readonly testService: TestService) { }
+  constructor(private readonly testService: TestService) {}
 
   async create(body: CreateTestDto) {
     const test = await this.testService.findOneByName(body.name);
-    if (test) throw new BadRequestException('Prova com esse nome já existe.');
+    if (test)
+      throw new BadRequestException(
+        'Não é possivel criar esse teste pois um com esse nome já existe.',
+      );
     return this.testService.create(body);
   }
 
@@ -46,6 +49,11 @@ export class TestController {
   }
 
   async update(id: string, body: UpdateTestDto) {
+    const test = await this.testService.findOneByName(body.name);
+    if (test)
+      throw new BadRequestException(
+        'Não é possivel Editar essa teste pois ja existe um com esse nome.',
+      );
     return this.testService.update(id, body);
   }
 
