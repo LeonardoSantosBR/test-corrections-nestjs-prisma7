@@ -1,13 +1,10 @@
 import {
   IsString,
   IsNotEmpty,
-  ValidateNested,
   IsNumber,
   IsOptional,
   IsJSON,
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { CreateOptionDto } from './create-option.dto';
 
 export class CreateQuestionDto {
   @IsNumber()
