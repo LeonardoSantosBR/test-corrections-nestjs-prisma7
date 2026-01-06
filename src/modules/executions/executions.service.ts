@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from 'generated/prisma/client';
 import { ExecutionsRepository, TestsRepository } from 'src/repositories';
-import { CreateExecutionDto } from './dto/create-executions.dto';
 
 @Injectable()
 export class ExecutionsService {
