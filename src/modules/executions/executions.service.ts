@@ -7,7 +7,7 @@ export class ExecutionsService {
   constructor(
     private readonly executionsRepository: ExecutionsRepository,
     private readonly testRepository: TestsRepository,
-  ) {}
+  ) { }
 
   async create({
     answers,
@@ -47,6 +47,7 @@ export class ExecutionsService {
       totalWrong,
       totalQuestions: test.questions.length,
     };
-    return await this.executionsRepository.create(data);
+    await this.executionsRepository.create(data);
+    return true;
   }
 }
