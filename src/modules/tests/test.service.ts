@@ -6,7 +6,7 @@ import { tests, Prisma } from 'generated/prisma/client';
 
 @Injectable()
 export class TestService {
-  constructor(private readonly testRepository: TestsRepository) {}
+  constructor(private readonly testRepository: TestsRepository) { }
 
   async create(data: CreateTestDto) {
     const { name, questions } = data;
@@ -14,17 +14,12 @@ export class TestService {
       name,
       questions: questions
         ? {
-            create: data.questions.map((qs) => ({
-              title: qs.title,
-              rightOption: qs.rightOption,
-              options: {
-                create: qs.options.map((op) => ({
-                  option: op.option,
-                  description: op.description,
-                })),
-              },
-            })),
-          }
+          create: data.questions.map((qs) => ({
+            title: qs.title,
+            rightOption: qs.rightOption,
+            options: qs.options,
+          })),
+        }
         : null,
     });
   }
