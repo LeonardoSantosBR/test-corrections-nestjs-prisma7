@@ -3,6 +3,7 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsRepository } from 'src/repositories';
 import { tests, Prisma } from 'generated/prisma/client';
+import { CreateQuestionDto } from './dto/create-question.dto';
 
 @Injectable()
 export class TestService {
@@ -63,6 +64,28 @@ export class TestService {
     const questions_with_id = data.questions.filter((q) => q.id);
     const questions_without_id = data.questions.filter((q) => !q.id);
 
+    await Promise.all([this.updateManyQuestionsExisting(questions_with_id), this.createManyQuestions(id, questions_without_id)])
+
+
+    const payload_ids = questions_with_id.map((q) => q.id);
+    const idsToDelete = test.questions
+      .filter((q) => !payload_ids.includes(q.id))
+      .map((q) => q.id);
+
+    await this.testRepository.questionsDeleteMany({
+      where: {
+        id: { in: idsToDelete },
+      },
+    });
+
+    return true;
+  }
+
+  async remove(id: string) {
+    return await this.testRepository.delete({ where: { id } });
+  }
+
+  async updateManyQuestionsExisting(questions_with_id: CreateQuestionDto[]) {
     for (const question of questions_with_id) {
       await this.testRepository.updateQuestion({
         where: { id: question.id },
@@ -74,7 +97,9 @@ export class TestService {
         },
       });
     }
+  }
 
+  async createManyQuestions(id: string, questions_without_id: CreateQuestionDto[]) {
     for (const question of questions_without_id) {
       await this.testRepository.createQuestion({
         data: {
@@ -89,22 +114,5 @@ export class TestService {
         },
       });
     }
-
-    const payload_ids = questions_with_id.map((q) => q.id);
-    const idsToDelete = test.questions
-      .filter((q) => !payload_ids.includes(q.id))
-      .map((q) => q.id);
-
-    await await this.testRepository.questionsDeleteMany({
-      where: {
-        id: { in: idsToDelete },
-      },
-    });
-
-    return true;
-  }
-
-  async remove(id: string) {
-    return await this.testRepository.delete({ where: { id } });
   }
 }
