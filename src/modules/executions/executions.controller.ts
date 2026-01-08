@@ -3,7 +3,7 @@ import { ExecutionsService } from './executions.service';
 
 @Injectable()
 export class ExecutionsController {
-  constructor(private readonly executionsService: ExecutionsService) {}
+  constructor(private readonly executionsService: ExecutionsService) { }
 
   async create({
     answers,
@@ -17,7 +17,7 @@ export class ExecutionsController {
     if (!testId) throw new BadRequestException('Id do teste não enviado.');
 
     if (answers.length <= 0)
-      throw new BadRequestException('Nenhuma Resposta respondida.');
+      throw new BadRequestException('Nenhuma pergunta respondida.');
 
     const body = {
       answers,
