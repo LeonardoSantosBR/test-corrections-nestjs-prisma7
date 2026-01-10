@@ -12,11 +12,11 @@ export class CreateQuestionDto {
   id: number;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Título obrigatório' })
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Questão correta obrigatória' })
   rightOption: string;
 
   @IsJSON()

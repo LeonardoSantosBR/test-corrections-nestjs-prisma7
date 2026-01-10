@@ -6,7 +6,7 @@ import { Prisma } from 'generated/prisma/client';
 import { pagination_prisma } from 'src/helpers/pagination/pagination.hp.prisma';
 import { pagination_helper } from 'src/helpers/pagination/pagination.hp';
 import { querySearchTest } from './dto/query-search-test';
-import { testFilter } from 'src/filters/test.filter';
+import { testFilter } from 'src/filters';
 
 @Injectable()
 export class TestController {

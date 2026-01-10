@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Prisma } from 'generated/prisma/client';
+import { pagination_prisma } from 'src/helpers/pagination/pagination.hp.prisma';
+import { pagination_helper } from 'src/helpers/pagination/pagination.hp';
+import { querySearchUser } from './dto/query-search-test';
+import { userFilter } from 'src/filters';
 
-@Controller('users')
+@Injectable()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(body: CreateUserDto) {
+    const isUserAlreadyExists = await this.usersService.findOneByCpfOrEmail(
+      body.cpf,
+      body.email,
+    );
+    if (isUserAlreadyExists)
+      throw new BadRequestException('Usuário com Cpf ou Email já existentes');
+
+    return this.usersService.create(body);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll(querys: querySearchUser) {
+    const page = +querys?.page;
+    const limit = +querys?.limit;
+    const orderBy: Prisma.usersOrderByWithAggregationInput = querys?.order ?? {
+      createdAt: 'desc',
+    };
+    const where: Prisma.usersWhereInput = {
+      deletedAt: null,
+    };
+    const filter: any = userFilter(querys);
+    if (filter?.length) where.OR = filter;
+    const include: Prisma.usersInclude = {};
+
+    const data = await this.usersService.findAll({
+      where,
+      orderBy,
+      include,
+      ...pagination_prisma(limit, page),
+    });
+
+    return pagination_helper(page, limit, data.count, data);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findOne(id: number) {
+    return this.usersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(id: number, body: UpdateUserDto) {
+    return this.usersService.update(id, body);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(id: number) {
+    return this.usersService.remove(id);
   }
 }

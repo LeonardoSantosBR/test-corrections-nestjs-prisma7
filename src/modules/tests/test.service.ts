@@ -7,7 +7,7 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 
 @Injectable()
 export class TestService {
-  constructor(private readonly testRepository: TestsRepository) { }
+  constructor(private readonly testRepository: TestsRepository) {}
 
   async create(data: CreateTestDto) {
     const { name, questions } = data;
@@ -15,14 +15,24 @@ export class TestService {
       name,
       questions: questions
         ? {
-          create: data.questions.map((qs) => ({
-            title: qs.title,
-            rightOption: qs.rightOption,
-            options: qs.options,
-          })),
-        }
+            create: data.questions.map((qs) => ({
+              title: qs.title,
+              rightOption: qs.rightOption,
+              options: qs.options,
+            })),
+          }
         : null,
     });
+  }
+
+  async findAll(params: Prisma.testsFindManyArgs) {
+    const [rows, count]: [tests[], number] = await Promise.all([
+      this.testRepository.findAll(params),
+      this.testRepository.count({
+        where: params.where || {},
+      }),
+    ]);
+    return { rows, count };
   }
 
   async findOne(id: string, arg?: Prisma.testsFindFirstArgs) {
@@ -45,16 +55,6 @@ export class TestService {
     return query;
   }
 
-  async findAll(params: Prisma.testsFindManyArgs) {
-    const [rows, count]: [tests[], number] = await Promise.all([
-      this.testRepository.findAll(params),
-      this.testRepository.count({
-        where: params.where || {},
-      }),
-    ]);
-    return { rows, count };
-  }
-
   async update(id: string, data: UpdateTestDto) {
     const test: any = await this.testRepository.findOne({
       where: { id },
@@ -63,9 +63,10 @@ export class TestService {
 
     const questions_with_id = data.questions.filter((q) => q.id);
     const questions_without_id = data.questions.filter((q) => !q.id);
-
-    await Promise.all([this.updateManyQuestionsExisting(questions_with_id), this.createManyQuestions(id, questions_without_id)])
-
+    await Promise.all([
+      this.updateManyQuestionsExisting(questions_with_id),
+      this.createManyQuestions(id, questions_without_id),
+    ]);
 
     const payload_ids = questions_with_id.map((q) => q.id);
     const idsToDelete = test.questions
@@ -99,7 +100,10 @@ export class TestService {
     }
   }
 
-  async createManyQuestions(id: string, questions_without_id: CreateQuestionDto[]) {
+  async createManyQuestions(
+    id: string,
+    questions_without_id: CreateQuestionDto[],
+  ) {
     for (const question of questions_without_id) {
       await this.testRepository.createQuestion({
         data: {
