@@ -23,19 +23,14 @@ export class ExecutionsService {
       select: { questions: { select: { id: true, rightOption: true } } },
     });
 
-    let totalCorrect = 0;
-    let totalWrong = 0;
+    let totalCorrect = 0, totalWrong = 0;
 
     for (const q of test.questions) {
       const was_answered = answers.find((r) => q.id == r.questionId);
-      if (was_answered && was_answered.response == q.rightOption) {
-        totalCorrect += 1;
-      } else {
-        totalWrong += 1;
-      }
+      was_answered && was_answered.response == q.rightOption ? totalCorrect++ : totalWrong++
     }
 
-    const data: Prisma.executionsCreateInput = {
+    await this.executionsRepository.create({
       ip,
       test: {
         connect: {
@@ -46,8 +41,7 @@ export class ExecutionsService {
       totalCorrect,
       totalWrong,
       totalQuestions: test.questions.length,
-    };
-    await this.executionsRepository.create(data);
+    });
     return true;
   }
 }
