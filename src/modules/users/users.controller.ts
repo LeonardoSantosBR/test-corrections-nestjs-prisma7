@@ -5,8 +5,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Prisma } from 'generated/prisma/client';
 import { pagination_prisma } from 'src/helpers/pagination/pagination.hp.prisma';
 import { pagination_helper } from 'src/helpers/pagination/pagination.hp';
-import { querySearchUser } from './dto/query-search-test';
-import { userFilter } from 'src/filters';
+import { querySearchUser } from './dto/query-search-tests';
+import { usersFilter } from 'src/filters';
 
 @Injectable()
 export class UsersController {
@@ -32,7 +32,7 @@ export class UsersController {
     const where: Prisma.usersWhereInput = {
       deletedAt: null,
     };
-    const filter: any = userFilter(querys);
+    const filter: any = usersFilter(querys);
     if (filter?.length) where.OR = filter;
     const include: Prisma.usersInclude = {};
 

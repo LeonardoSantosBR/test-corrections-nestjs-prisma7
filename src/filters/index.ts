@@ -1,2 +1,2 @@
-export * from './test.filter';
-export * from './user.filter';
+export * from './tests.filter';
+export * from './users.filter';

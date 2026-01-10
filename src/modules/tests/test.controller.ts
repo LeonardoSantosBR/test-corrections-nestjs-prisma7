@@ -5,8 +5,8 @@ import { UpdateTestDto } from './dto/update-test.dto';
 import { Prisma } from 'generated/prisma/client';
 import { pagination_prisma } from 'src/helpers/pagination/pagination.hp.prisma';
 import { pagination_helper } from 'src/helpers/pagination/pagination.hp';
-import { querySearchTest } from './dto/query-search-test';
-import { testFilter } from 'src/filters';
+import { querySearchTests } from './dto/query-search-tests';
+import { testsFilter } from 'src/filters';
 
 @Injectable()
 export class TestController {
@@ -21,7 +21,7 @@ export class TestController {
     return this.testService.create(body);
   }
 
-  async findAll(querys: querySearchTest) {
+  async findAll(querys: querySearchTests) {
     const page = +querys?.page;
     const limit = +querys?.limit;
     const orderBy: Prisma.testsOrderByWithAggregationInput = querys?.order ?? {
@@ -30,7 +30,7 @@ export class TestController {
     const where: Prisma.testsWhereInput = {
       deletedAt: null,
     };
-    const filter: any = testFilter(querys);
+    const filter: any = testsFilter(querys);
     if (filter?.length) where.OR = filter;
     const include: Prisma.testsInclude = {};
 

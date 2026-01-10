@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { querySearchUser } from './dto/query-search-test';
+import { querySearchUser } from './dto/query-search-tests';
 import { UsersController } from './users.controller';
 import { ApiTags } from '@nestjs/swagger';
 
