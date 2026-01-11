@@ -61,7 +61,7 @@ export class UsersService {
 
   async update(id: number, data: UpdateUserDto) {
     const { typeId, ...rest } = data;
-    return await this.usersRepository.update({ where: { id }, data: { ...rest, userTypes: { update: { where: { userId: id }, data: { typeId } } } } })
+    return await this.usersRepository.update({ where: { id }, data: { ...rest, userTypes: { update: { where: { userId: id }, data: { typeId } } }, updatedAt: new Date() } })
   }
 
   async remove(id: number) {
