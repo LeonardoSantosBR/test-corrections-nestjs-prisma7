@@ -10,7 +10,7 @@ import { usersFilter } from 'src/filters';
 
 @Injectable()
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   async create(body: CreateUserDto) {
     const isUserAlreadyExists = await this.usersService.findOneByCpfOrEmail(
@@ -46,15 +46,18 @@ export class UsersController {
     return pagination_helper(page, limit, data.count, data);
   }
 
-  findOne(id: number) {
-    return this.usersService.findOne(id);
+  async findOne(id: number) {
+    return await this.usersService.findOne(id);
   }
 
-  update(id: number, body: UpdateUserDto) {
-    return this.usersService.update(id, body);
+  async update(id: number, body: UpdateUserDto) {
+    if (!id)
+      throw new BadRequestException("Id do usuário não enviado.");
+
+    return await this.usersService.update(id, body);
   }
 
-  remove(id: number) {
-    return this.usersService.remove(id);
+  async remove(id: number) {
+    return await this.usersService.remove(id);
   }
 }

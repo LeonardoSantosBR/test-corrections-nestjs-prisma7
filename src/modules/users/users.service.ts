@@ -10,7 +10,7 @@ export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly hashService: HashService,
-  ) {}
+  ) { }
 
   async create(data: CreateUserDto) {
     const { password, typeId, ...rest } = data;
@@ -60,10 +60,11 @@ export class UsersService {
   }
 
   async update(id: number, data: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    const { typeId, ...rest } = data;
+    return await this.usersRepository.update({ where: { id }, data: { ...rest, userTypes: { update: { where: { userId: id }, data: { typeId } } } } })
   }
 
-  remove(id: number) {
-    return this.usersRepository.delete({ where: { id } });
+  async remove(id: number) {
+    return await this.usersRepository.delete({ where: { id } });
   }
 }
