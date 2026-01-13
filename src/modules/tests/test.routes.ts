@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
-import { querySearchTest } from './dto/query-search-test';
+import { querySearchTests } from './dto/query-search-tests';
 import { TestController } from './test.controller';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -21,7 +21,7 @@ export class TestRouter {
     }
 
     @Get('')
-    async findAll(@Query() querys: querySearchTest) {
+    async findAll(@Query() querys: querySearchTests) {
         return await this.testController.findAll(querys);
     }
 

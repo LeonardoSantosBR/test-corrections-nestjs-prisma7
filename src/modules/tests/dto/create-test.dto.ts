@@ -9,7 +9,7 @@ import { CreateQuestionDto } from './create-question.dto';
 
 export class CreateTestDto {
     @IsString()
-    @IsNotEmpty()
+    @IsNotEmpty({ message: 'Nome obrigatório' })
     name: string;
 
     @IsArray()

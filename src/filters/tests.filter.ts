@@ -1,8 +1,8 @@
 import { whereGlobal } from 'src/common/where-global.hp';
 import { optType } from 'src/types/type-filter';
-import { querySearchTest } from 'src/modules/tests/dto/query-search-test';
+import { querySearchTests } from 'src/modules/tests/dto/query-search-tests';
 
-export const testFilter = (query: querySearchTest) => {
+export const testsFilter = (query: querySearchTests) => {
     const opt: any = {
         name: {
             value: query?.search,
