@@ -4,13 +4,27 @@ import { TestModule } from './modules/tests/test.module';
 import { ConfigModule } from '@nestjs/config';
 import { ExecutionsModule } from './modules/executions/executions.module';
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuthGuard } from './modules/auth/auth.guard';
 
 @Module({
-  imports: [PrismaModule, TestModule, ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: '.env',
-  }), ExecutionsModule, UsersModule,],
+  imports: [
+    PrismaModule,
+    TestModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    ExecutionsModule,
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: 'APP_GUARD',
+      useClass: AuthGuard,
+    },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

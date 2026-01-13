@@ -10,7 +10,7 @@ export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly hashService: HashService,
-  ) { }
+  ) {}
 
   async create(data: CreateUserDto) {
     const { password, typeId, ...rest } = data;
@@ -39,7 +39,7 @@ export class UsersService {
     return { rows, count };
   }
 
-  async findOne(id: number, arg?: Prisma.usersFindFirstArgs) {
+  async findOne(id?: number, arg?: Prisma.usersFindFirstArgs) {
     const where = arg?.where || { id, deletedAt: null };
     const query = await this.usersRepository.findOne({
       where,
@@ -61,7 +61,14 @@ export class UsersService {
 
   async update(id: number, data: UpdateUserDto) {
     const { typeId, ...rest } = data;
-    return await this.usersRepository.update({ where: { id }, data: { ...rest, userTypes: { update: { where: { userId: id }, data: { typeId } } }, updatedAt: new Date() } })
+    return await this.usersRepository.update({
+      where: { id },
+      data: {
+        ...rest,
+        userTypes: { update: { where: { userId: id }, data: { typeId } } },
+        updatedAt: new Date(),
+      },
+    });
   }
 
   async remove(id: number) {
