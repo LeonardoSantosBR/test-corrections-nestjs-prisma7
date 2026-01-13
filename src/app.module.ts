@@ -6,6 +6,7 @@ import { ExecutionsModule } from './modules/executions/executions.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthGuard } from './modules/auth/auth.guard';
+import { FunctionalitiesModule } from './modules/functionalities/functionalities.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
     ExecutionsModule,
     UsersModule,
     AuthModule,
+    FunctionalitiesModule,
   ],
   controllers: [],
   providers: [
