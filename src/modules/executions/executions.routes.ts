@@ -1,4 +1,4 @@
-import { Body, Controller, Ip, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Ip, Param, Post } from '@nestjs/common';
 import { ExecutionsController } from './executions.controller';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateAnswersDto } from './dto/create-answers.dto';
@@ -6,7 +6,7 @@ import { CreateAnswersDto } from './dto/create-answers.dto';
 @ApiTags('executions')
 @Controller('executions')
 export class ExecutionsRouter {
-  constructor(private readonly executionsController: ExecutionsController) {}
+  constructor(private readonly executionsController: ExecutionsController) { }
 
   @Post('/:testId')
   async create(
@@ -19,5 +19,10 @@ export class ExecutionsRouter {
       testId,
       ip,
     });
+  }
+
+  @Get('/show-test/:testId')
+  async showTest(@Param('testId') testId: string) {
+    return await this.executionsController.showTest(testId);
   }
 }

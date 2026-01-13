@@ -3,10 +3,12 @@ import { ExecutionsService } from './executions.service';
 import { ExecutionsController } from './executions.controller';
 import { ExecutionsRepository, TestsRepository } from 'src/repositories';
 import { ExecutionsRouter } from './executions.routes';
+import { TestService } from '../tests/test.service';
 const providers = [
   ExecutionsController,
   ExecutionsService,
   ExecutionsRepository,
+  TestService,
   TestsRepository,
 ];
 @Module({
@@ -14,4 +16,4 @@ const providers = [
   providers,
   exports: providers,
 })
-export class ExecutionsModule {}
+export class ExecutionsModule { }
