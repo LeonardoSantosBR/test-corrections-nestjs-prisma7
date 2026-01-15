@@ -7,6 +7,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { FunctionalitiesModule } from './modules/functionalities/functionalities.module';
+import { TypesModule } from './modules/types/types.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FunctionalitiesModule } from './modules/functionalities/functionalities
     UsersModule,
     AuthModule,
     FunctionalitiesModule,
+    TypesModule,
   ],
   controllers: [],
   providers: [

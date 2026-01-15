@@ -4,16 +4,16 @@ import { PrismaService } from 'src/database/prisma/prisma-service';
 
 @Injectable()
 export class FunctionalitiesRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: Prisma.functionalitiesCreateInput) {
-    const new_test = await this.prisma.functionalities.create({ data });
-    return new_test;
+    const new_func = await this.prisma.functionalities.create({ data });
+    return new_func;
   }
 
   async createMany(data: Prisma.functionalitiesCreateInput[]) {
-    const new_test = await this.prisma.functionalities.createMany({ data });
-    return new_test;
+    const new_func = await this.prisma.functionalities.createMany({ data });
+    return new_func;
   }
 
   async findOne(params: Prisma.functionalitiesFindFirstArgs) {
