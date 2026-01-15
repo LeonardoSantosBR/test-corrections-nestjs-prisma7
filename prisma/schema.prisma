@@ -46,7 +46,7 @@ model users {
   name      String
   cpf       String     @unique
   email     String     @unique
-  password  String     @db.LongText
+  password  String     @db.Text
   createdAt DateTime   @default(now())
   updatedAt DateTime?
   deletedAt DateTime?
@@ -54,14 +54,14 @@ model users {
 }
 
 model types {
-  id              Int               @id @default(autoincrement())
-  standard        Boolean
-  name            String            @unique
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime?
-  deletedAt       DateTime?
-  functionalities functionalities[]
-  userTypes       userTypes[]
+  id                   Int                    @id @default(autoincrement())
+  standard             Boolean
+  name                 String                 @unique
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime?
+  deletedAt            DateTime?
+  userTypes            userTypes[]
+  typesFunctionalities typesFunctionalities[]
 }
 
 model userTypes {
@@ -76,12 +76,22 @@ model userTypes {
 }
 
 model functionalities {
-  id            Int      @id @default(autoincrement())
-  typeId        Int
-  name          String   @unique
-  endpoints     Json
-  abbreviations String
-  tag           String
-  createdAt     DateTime @default(now())
-  type          types    @relation(fields: [typeId], references: [id])
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @unique
+  endpoints            Json
+  abbreviations        String
+  tag                  String
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime?
+  typesFunctionalities typesFunctionalities[]
+}
+
+model typesFunctionalities {
+  typeId          Int
+  functionalityId Int
+  type            types           @relation(fields: [typeId], references: [id])
+  functionality   functionalities @relation(fields: [functionalityId], references: [id])
+
+  @@id([typeId, functionalityId])
+  @@map("types_functionalities")
 }
