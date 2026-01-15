@@ -1,6 +1,16 @@
-import { IsNotEmpty, IsString, IsJSON } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsJSON,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateFunctionalityDto {
+  @IsNumber()
+  @IsOptional()
+  id: number;
+
   @IsString()
   @IsNotEmpty()
   name: string;

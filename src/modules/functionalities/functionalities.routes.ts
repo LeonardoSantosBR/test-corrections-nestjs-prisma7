@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
 import { CreateFunctionalityDto } from './dto/create-functionality.dto';
-import { UpdateFunctionalityDto } from './dto/update-functionality.dto';
 import { FunctionalitiesController } from './functionalities.controller';
 
 @Controller('functionalities')
@@ -18,18 +9,13 @@ export class FunctionalitiesRouter {
   ) {}
 
   @Post()
-  create(@Body() body: CreateFunctionalityDto) {
-    return this.functionalitiesController.create(body);
+  async createOrUpdate(@Body() body: CreateFunctionalityDto[]) {
+    return await this.functionalitiesController.createOrUpdate(body);
   }
 
-  @Post('/many')
+  @Post('/in-batch')
   createMany(@Body() body: CreateFunctionalityDto[]) {
     return this.functionalitiesController.createMany(body);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() body: UpdateFunctionalityDto) {
-    return this.functionalitiesController.update(+id, body);
   }
 
   @Delete(':id')
