@@ -1,6 +1,4 @@
-import {
-  Injectable
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { FunctionalitiesService } from './functionalities.service';
 import { CreateFunctionalityDto } from './dto/create-functionality.dto';
 import { UpdateFunctionalityDto } from './dto/update-functionality.dto';
@@ -9,7 +7,7 @@ import { UpdateFunctionalityDto } from './dto/update-functionality.dto';
 export class FunctionalitiesController {
   constructor(
     private readonly functionalitiesService: FunctionalitiesService,
-  ) { }
+  ) {}
 
   async create(body: CreateFunctionalityDto) {
     return this.functionalitiesService.create(body);

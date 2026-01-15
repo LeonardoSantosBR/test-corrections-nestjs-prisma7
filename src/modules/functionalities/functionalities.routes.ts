@@ -27,11 +27,6 @@ export class FunctionalitiesRouter {
     return this.functionalitiesController.createMany(body);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.functionalitiesController.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() body: UpdateFunctionalityDto) {
     return this.functionalitiesController.update(+id, body);
