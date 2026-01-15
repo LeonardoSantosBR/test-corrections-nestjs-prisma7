@@ -13,6 +13,10 @@ export class FunctionalitiesService {
     return await this.functionalitiesRepository.create(data);
   }
 
+  async createMany(data: CreateFunctionalityDto[]) {
+    return await this.functionalitiesRepository.createMany(data);
+  }
+
   async findOne(id: number) {
     return await this.functionalitiesRepository.findOne({ where: { id } });
   }

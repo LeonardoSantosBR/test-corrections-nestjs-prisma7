@@ -21,6 +21,10 @@ export class FunctionalitiesController {
     return this.functionalitiesService.create(body);
   }
 
+  async createMany(body: CreateFunctionalityDto[]) {
+    return this.functionalitiesService.createMany(body);
+  }
+
   async findOne(id: number) {
     return this.functionalitiesService.findOne(+id);
   }

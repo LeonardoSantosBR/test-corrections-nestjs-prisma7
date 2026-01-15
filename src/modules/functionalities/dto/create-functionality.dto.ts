@@ -1,23 +1,19 @@
-import { IsInt, IsNotEmpty, IsString, IsObject, IsJSON } from 'class-validator';
+import { IsNotEmpty, IsString, IsJSON } from 'class-validator';
 
 export class CreateFunctionalityDto {
-    @IsInt()
-    @IsNotEmpty()
-    typeId: number;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsJSON()
+  @IsNotEmpty()
+  endpoints: any;
 
-    @IsJSON()
-    @IsNotEmpty()
-    endpoints: any;
+  @IsString()
+  @IsNotEmpty()
+  abbreviations: string;
 
-    @IsString()
-    @IsNotEmpty()
-    abbreviations: string;
-
-    @IsString()
-    @IsNotEmpty()
-    tag: string;
+  @IsString()
+  @IsNotEmpty()
+  tag: string;
 }

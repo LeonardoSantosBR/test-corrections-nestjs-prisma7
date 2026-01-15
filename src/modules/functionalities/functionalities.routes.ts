@@ -22,6 +22,11 @@ export class FunctionalitiesRouter {
     return this.functionalitiesController.create(body);
   }
 
+  @Post('/many')
+  createMany(@Body() body: CreateFunctionalityDto[]) {
+    return this.functionalitiesController.createMany(body);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.functionalitiesController.findOne(+id);
