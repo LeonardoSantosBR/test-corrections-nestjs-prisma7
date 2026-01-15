@@ -5,11 +5,12 @@ import { FunctionalitiesRepository } from 'src/repositories';
 
 @Injectable()
 export class FunctionalitiesService {
-  constructor(private readonly functionalitiesRepository: FunctionalitiesRepository) { }
+  constructor(
+    private readonly functionalitiesRepository: FunctionalitiesRepository,
+  ) {}
 
   async create(data: CreateFunctionalityDto) {
-    const { typeId, ...rest } = data;
-    return await this.functionalitiesRepository.create({ ...rest, type: { connect: { id: typeId } } })
+    return await this.functionalitiesRepository.create(data);
   }
 
   async findOne(id: number) {
@@ -17,11 +18,10 @@ export class FunctionalitiesService {
   }
 
   async update(id: number, data: UpdateFunctionalityDto) {
-    const { typeId, ...rest } = data;
-    return await this.functionalitiesRepository.update({ where: { id }, data: { ...rest, type: { connect: { id: typeId } } } })
+    return await this.functionalitiesRepository.update({ where: { id }, data });
   }
 
   async remove(id: number) {
-    return await this.functionalitiesRepository.delete({ where: { id } })
+    return await this.functionalitiesRepository.delete({ where: { id } });
   }
 }
