@@ -16,11 +16,6 @@ export class FunctionalitiesRepository {
     return new_func;
   }
 
-  async findOne(params: Prisma.functionalitiesFindFirstArgs) {
-    const query = await this.prisma.functionalities.findFirst(params);
-    return query;
-  }
-
   async update(params: Prisma.functionalitiesUpdateArgs) {
     await this.prisma.functionalities.update(params);
     return true;

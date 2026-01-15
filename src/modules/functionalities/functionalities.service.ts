@@ -7,7 +7,7 @@ import { FunctionalitiesRepository } from 'src/repositories';
 export class FunctionalitiesService {
   constructor(
     private readonly functionalitiesRepository: FunctionalitiesRepository,
-  ) {}
+  ) { }
 
   async create(data: CreateFunctionalityDto) {
     return await this.functionalitiesRepository.create(data);
@@ -15,10 +15,6 @@ export class FunctionalitiesService {
 
   async createMany(data: CreateFunctionalityDto[]) {
     return await this.functionalitiesRepository.createMany(data);
-  }
-
-  async findOne(id: number) {
-    return await this.functionalitiesRepository.findOne({ where: { id } });
   }
 
   async update(id: number, data: UpdateFunctionalityDto) {

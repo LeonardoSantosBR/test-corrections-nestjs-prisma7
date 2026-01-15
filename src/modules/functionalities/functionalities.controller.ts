@@ -1,11 +1,5 @@
 import {
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Injectable,
+  Injectable
 } from '@nestjs/common';
 import { FunctionalitiesService } from './functionalities.service';
 import { CreateFunctionalityDto } from './dto/create-functionality.dto';
@@ -15,7 +9,7 @@ import { UpdateFunctionalityDto } from './dto/update-functionality.dto';
 export class FunctionalitiesController {
   constructor(
     private readonly functionalitiesService: FunctionalitiesService,
-  ) {}
+  ) { }
 
   async create(body: CreateFunctionalityDto) {
     return this.functionalitiesService.create(body);
@@ -23,10 +17,6 @@ export class FunctionalitiesController {
 
   async createMany(body: CreateFunctionalityDto[]) {
     return this.functionalitiesService.createMany(body);
-  }
-
-  async findOne(id: number) {
-    return this.functionalitiesService.findOne(+id);
   }
 
   async update(id: number, body: UpdateFunctionalityDto) {
