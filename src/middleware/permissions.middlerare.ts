@@ -19,13 +19,11 @@ export class PermissionsMiddleware implements NestMiddleware {
 
     const hasPermission = userDt.type.functionalities.some((func) =>
       func.endpoints.some(
-        (end) =>
-          (this.matchRoute(end.path, url) && end.method === method) ||
-          userDt.type.standard,
+        (end) => this.matchRoute(end.path, url) && end.method === method,
       ),
     );
 
-    if (!hasPermission) {
+    if (!hasPermission && userDt.type.standard == false) {
       throw new ForbiddenException('Acesso negado a esta rota');
     }
     next();
