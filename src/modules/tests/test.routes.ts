@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { querySearchTests } from './dto/query-search-tests';
@@ -8,30 +17,30 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('test')
 @Controller('test')
 export class TestRouter {
-    constructor(private readonly testController: TestController) { }
+  constructor(private readonly testController: TestController) {}
 
-    @Post('')
-    async create(@Body() body: CreateTestDto) {
-        return await this.testController.create(body);
-    }
+  @Post('')
+  async create(@Body() body: CreateTestDto) {
+    return await this.testController.create(body);
+  }
 
-    @Get('/:id')
-    async findOne(@Param('id') id: string) {
-        return await this.testController.findOne(id);
-    }
+  @Get('/:id')
+  async findOne(@Param('id') id: string) {
+    return await this.testController.findOne(id);
+  }
 
-    @Get('')
-    async findAll(@Query() querys: querySearchTests) {
-        return await this.testController.findAll(querys);
-    }
+  @Get('')
+  async findAll(@Query() querys: querySearchTests) {
+    return await this.testController.findAll(querys);
+  }
 
-    @Patch('/:id')
-    async update(@Body() body: UpdateTestDto, @Param('id') id: string) {
-        return await this.testController.update(id, body);
-    }
+  @Patch('/:id')
+  async update(@Body() body: UpdateTestDto, @Param('id') id: string) {
+    return await this.testController.update(id, body);
+  }
 
-    @Delete('/:id')
-    async remove(@Param('id') id: string) {
-        return await this.testController.remove(id);
-    }
+  @Delete('/:id')
+  async remove(@Param('id') id: string) {
+    return await this.testController.remove(id);
+  }
 }

@@ -4,11 +4,11 @@ import { PrismaService } from 'src/database/prisma/prisma-service';
 
 @Injectable()
 export class ExecutionsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: Prisma.executionsCreateInput) {
-    const new_test = await this.prisma.executions.create({ data });
-    return new_test;
+    const new_exec = await this.prisma.executions.create({ data });
+    return new_exec;
   }
 
   async findAll(params: Prisma.executionsFindManyArgs) {
