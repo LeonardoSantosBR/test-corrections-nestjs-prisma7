@@ -79,6 +79,12 @@ export class TypesService {
     return true;
   }
 
+  async findOneFuncUsing(id: number) {
+    return await this.typesRepository.findOneFuncUsing({
+      where: { typeId: id },
+    });
+  }
+
   async remove(id: number) {
     return await this.remove(id);
   }
