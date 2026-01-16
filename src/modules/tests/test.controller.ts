@@ -45,7 +45,8 @@ export class TestController {
   }
 
   async findOne(id: string) {
-    return await this.testService.findOne(id);
+    if (!id) throw new BadRequestException('Id não enviado.');
+    return await this.testService.findOne(id, { include: { questions: true } });
   }
 
   async update(id: string, body: UpdateTestDto) {
@@ -58,6 +59,7 @@ export class TestController {
   }
 
   async remove(id: string) {
+    if (!id) throw new BadRequestException('Id não enviado.');
     return this.testService.remove(id);
   }
 }

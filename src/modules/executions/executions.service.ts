@@ -6,7 +6,7 @@ export class ExecutionsService {
   constructor(
     private readonly executionsRepository: ExecutionsRepository,
     private readonly testRepository: TestsRepository,
-  ) { }
+  ) {}
 
   async create({
     answers,
@@ -22,11 +22,14 @@ export class ExecutionsService {
       select: { questions: { select: { id: true, rightOption: true } } },
     });
 
-    let totalCorrect = 0, totalWrong = 0;
+    let totalCorrect = 0,
+      totalWrong = 0;
 
     for (const q of test.questions) {
       const was_answered = answers.find((r) => q.id == r.questionId);
-      was_answered && was_answered.response == q.rightOption ? totalCorrect++ : totalWrong++
+      was_answered && was_answered.response == q.rightOption
+        ? totalCorrect++
+        : totalWrong++;
     }
 
     await this.executionsRepository.create({

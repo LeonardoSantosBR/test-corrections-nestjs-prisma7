@@ -7,8 +7,7 @@ export class ExecutionsController {
   constructor(
     private readonly executionsService: ExecutionsService,
     private readonly testService: TestService,
-
-  ) { }
+  ) {}
 
   async create({
     answers,
@@ -34,7 +33,12 @@ export class ExecutionsController {
 
   async showTest(testId: string) {
     if (!testId) throw new BadRequestException('Id do teste não enviado.');
-    const test = await this.testService.findOne(testId, { select: { name: true, questions: { select: { title: true, options: true } } } });
+    const test = await this.testService.findOne(testId, {
+      select: {
+        name: true,
+        questions: { select: { title: true, options: true } },
+      },
+    });
     return test;
   }
 }
