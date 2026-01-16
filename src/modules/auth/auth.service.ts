@@ -15,7 +15,7 @@ export class AuthService {
     id: number;
     name: string;
     cpf: string;
-    type: { id: number; name: string };
+    type: { id: number; name: string; functionalitiesIds: Array<number> };
   }) {
     const access_token = this.jwtService.sign(
       {

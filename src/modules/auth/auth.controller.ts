@@ -27,6 +27,11 @@ export class AuthController {
               select: {
                 id: true,
                 name: true,
+                typesFunctionalities: {
+                  select: {
+                    functionalityId: true,
+                  },
+                },
               },
             },
           },
@@ -42,7 +47,12 @@ export class AuthController {
       cpf: user.cpf,
       type: {
         id: user.userTypes.type.id,
-        name: user.userTypes.type.name
+        name: user.userTypes.type.name,
+        functionalitiesIds: user.userTypes.type.typesFunctionalities.map(
+          (tpf) => {
+            return tpf.functionalityId;
+          },
+        ),
       },
     });
   }
