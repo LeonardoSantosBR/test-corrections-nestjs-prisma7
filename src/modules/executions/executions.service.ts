@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExecutionsRepository, TestsRepository } from 'src/repositories';
+import { IAnswers } from 'src/types/answers';
+import { Req } from '@nestjs/common';
 
 @Injectable()
 export class ExecutionsService {
@@ -12,10 +14,12 @@ export class ExecutionsService {
     answers,
     testId,
     ip,
+    userId,
   }: {
-    answers: any;
+    answers: Array<IAnswers>;
     testId: string;
     ip: string;
+    userId: number;
   }) {
     const test: any = await this.testRepository.findOne({
       where: { id: testId },
@@ -34,6 +38,11 @@ export class ExecutionsService {
 
     await this.executionsRepository.create({
       ip,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
       test: {
         connect: {
           id: testId,

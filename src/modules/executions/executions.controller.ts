@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ExecutionsService } from './executions.service';
 import { TestService } from '../tests/test.service';
+import { IAnswers } from 'src/types/answers';
 
 @Injectable()
 export class ExecutionsController {
@@ -12,11 +13,11 @@ export class ExecutionsController {
   async create({
     answers,
     testId,
-    ip,
+    req,
   }: {
-    answers: any;
+    answers: Array<IAnswers>;
     testId: string;
-    ip: string;
+    req: any;
   }) {
     if (!testId) throw new BadRequestException('Id do teste não enviado.');
 
@@ -26,7 +27,8 @@ export class ExecutionsController {
     const body = {
       answers,
       testId,
-      ip,
+      ip: req.ip,
+      userId: req.user.id,
     };
     return this.executionsService.create(body);
   }
