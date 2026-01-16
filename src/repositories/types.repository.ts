@@ -51,6 +51,11 @@ export class TypesRepository {
     return true;
   }
 
+  async findOneFuncUsing(params: Prisma.typesFunctionalitiesFindFirstArgs) {
+    const query = await this.prisma.typesFunctionalities.findFirst(params);
+    return query;
+  }
+
   async delete(params: Prisma.typesDeleteArgs) {
     await this.prisma.types.delete(params);
     return true;

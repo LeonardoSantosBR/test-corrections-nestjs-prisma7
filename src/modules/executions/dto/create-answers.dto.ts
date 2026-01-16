@@ -1,7 +1,8 @@
-import { IsJSON, IsNotEmpty } from 'class-validator';
+import { IsArray, IsNotEmpty } from 'class-validator';
+import { IAnswers } from 'src/types/answers';
 
 export class CreateAnswersDto {
   @IsNotEmpty({ message: 'Respostas são obrigatórias' })
-  @IsJSON()
-  answers: any;
+  @IsArray()
+  answers: Array<IAnswers>;
 }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { PrismaModule } from './database/prisma/prisma-module';
 import { TestModule } from './modules/tests/test.module';
 import { ConfigModule } from '@nestjs/config';
@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { FunctionalitiesModule } from './modules/functionalities/functionalities.module';
 import { TypesModule } from './modules/types/types.module';
+import { PermissionsMiddleware } from './middleware/permissions.middlerare';
 
 @Module({
   imports: [
@@ -31,4 +32,11 @@ import { TypesModule } from './modules/types/types.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(PermissionsMiddleware)
+      .exclude({ path: 'auth/(.*)', method: RequestMethod.ALL })
+      .forRoutes('*');
+  }
+}

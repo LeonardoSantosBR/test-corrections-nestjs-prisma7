@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { TypesService } from './types.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
@@ -44,6 +44,15 @@ export class TypesController {
   }
 
   async remove(id: number) {
+    if (!id) throw new BadRequestException('Id não enviado.');
+    const isSomeFunctionalityUsing =
+      await this.typesService.findOneFuncUsing(id);
+
+    if (isSomeFunctionalityUsing)
+      throw new BadRequestException(
+        'Já existe uma Funcionalidade usando esse Tipo.',
+      );
+
     return this.typesService.remove(+id);
   }
 }

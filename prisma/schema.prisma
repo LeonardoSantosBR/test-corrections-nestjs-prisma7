@@ -33,24 +33,27 @@ model executions {
   id               String   @id @default(uuid())
   testId           String
   ip               String
+  userId           Int
   totalQuestions   Int
   totalCorrect     Int
   totalWrong       Int
   resultPercentage Int
   createdAt        DateTime @default(now())
   test             tests    @relation(fields: [testId], references: [id])
+  user             users    @relation(fields: [userId], references: [id])
 }
 
 model users {
-  id        Int        @id @default(autoincrement())
-  name      String
-  cpf       String     @unique
-  email     String     @unique
-  password  String     @db.Text
-  createdAt DateTime   @default(now())
-  updatedAt DateTime?
-  deletedAt DateTime?
-  userTypes userTypes?
+  id         Int          @id @default(autoincrement())
+  name       String
+  cpf        String       @unique
+  email      String       @unique
+  password   String       @db.Text
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime?
+  deletedAt  DateTime?
+  userTypes  userTypes?
+  executions executions[]
 }
 
 model types {

@@ -47,6 +47,7 @@ export class UsersController {
   }
 
   async findOne(id: number) {
+    if (!id) throw new BadRequestException('Id não enviado.');
     return await this.usersService.findOne(id);
   }
 
@@ -56,6 +57,7 @@ export class UsersController {
   }
 
   async remove(id: number) {
+    if (!id) throw new BadRequestException('Id não enviado.');
     return await this.usersService.remove(id);
   }
 }
