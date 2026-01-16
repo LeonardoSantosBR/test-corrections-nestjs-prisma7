@@ -1,34 +1,49 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { TypesService } from './types.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
+import { Prisma } from 'generated/prisma/client';
+import { pagination_prisma } from 'src/helpers/pagination/pagination.hp.prisma';
+import { pagination_helper } from 'src/helpers/pagination/pagination.hp';
+import { querySearchTypes } from './dto/query-search-types';
+import { typesFilter } from 'src/filters';
 
-@Controller('types')
+@Injectable()
 export class TypesController {
   constructor(private readonly typesService: TypesService) {}
 
-  @Post()
-  create(@Body() createTypeDto: CreateTypeDto) {
-    return this.typesService.create(createTypeDto);
+  async create(body: CreateTypeDto) {
+    return this.typesService.create(body);
   }
 
-  @Get()
-  findAll() {
-    return this.typesService.findAll();
+  async findAll(querys: querySearchTypes) {
+    const page = +querys?.page;
+    const limit = +querys?.limit;
+    const orderBy: Prisma.typesOrderByWithAggregationInput = querys?.order ?? {
+      createdAt: 'desc',
+    };
+    const where: Prisma.typesWhereInput = {
+      deletedAt: null,
+    };
+    const filter: any = typesFilter(querys);
+    if (filter?.length) where.OR = filter;
+    const include: Prisma.typesInclude = {};
+
+    const data = await this.typesService.findAll({
+      where,
+      orderBy,
+      include,
+      ...pagination_prisma(limit, page),
+    });
+
+    return pagination_helper(page, limit, data.count, data);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.typesService.findOne(+id);
+  async update(id: number, body: UpdateTypeDto) {
+    return this.typesService.update(+id, body);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTypeDto: UpdateTypeDto) {
-    return this.typesService.update(+id, updateTypeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(id: number) {
     return this.typesService.remove(+id);
   }
 }
